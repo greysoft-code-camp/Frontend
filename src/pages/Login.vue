@@ -84,19 +84,21 @@ export default {
         let email = this.form.email
         let password = this.form.password
 
-        this.$store.dispatch('login', { email, password })
-          .then(() => {
-            this.resp = "Logged In Successfully"
-            // this.resp = "Logged In Successfully"
-            // this.$q.notify(this.resp);
+
+        // console.log(email, password)
+        // this.$store.dispatch('login', { email, password })
+
+
+        this.$store.dispatch('login', { email, password }).then(() =>{
+          this.resp = "Logged In Successfully"
             this.$q.notify({
             message: this.resp,
             color: 'primary',
-            avatar: 'https://image.shutterstock.com/image-vector/avatar-icon-on-black-round-600w-1167668266.jpg'
           })
-            this.$router.push('/page')
-          })
-          .catch(() => {
+           this.$router.replace('/')
+        }).catch(() => {
+            // console.log(this.$store);
+
             const mesg = "Please Recheck Credentials"
              this.errors.push(mesg)
             setTimeout(()=>{
@@ -106,7 +108,10 @@ export default {
               }, 2000)
           })
       },
-     }
+     },
+     mounted(){
+        console.log(this.$store);
+    },
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="row q-pl-xl q-pt-lg">
-    <div v-for="n in 5" :key="n" class=" q-mx-sm  cursor-pointer"  style="height: 220px">
+    <div v-for="n in 5" :key="n" class=" q-mx-sm  cursor-pointer"  style="height: 120px">
       <Board />
     </div>
 
