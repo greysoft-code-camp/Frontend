@@ -198,12 +198,12 @@ select:focus {
   /* padding: 16px 24px 16px 24px; */
   margin: 1rem;
   border-radius: 60px;
-  border: 1px solid #fe724c;
+  border: 1px solid #1976d2;
   font-size: 1.3rem !important;
-  color: #fe724c;;
+  color: #1976d2;
   margin: 0.55rem 0;
   padding: 1rem;
-  width: 100%;
+  width: 60%;
   /* font-size: 1.6rem; */
 }
 

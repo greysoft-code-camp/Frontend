@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar v-if="$router.currentRoute.value.path === '/'">
         <q-btn
           flat
           dense
@@ -21,8 +21,8 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
+      v-if="$router.currentRoute.value.path === '/'"
     >
       <q-list>
         <q-item-label
@@ -115,3 +115,7 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+
+</style>

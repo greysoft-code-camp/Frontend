@@ -32,7 +32,7 @@
             <div class="input">
                 <i class="far q-mr-md fa-user text-primary"></i>
 
-                <input v-model="form.name" type="text" placeholder="eg. Ademola" />
+                <input v-model="form.name" type="text" placeholder= "Enter your username eg. ademola" />
             </div>
         </div>
         <div class="input-wrap">
@@ -305,11 +305,11 @@ select:focus {
   margin: 1rem;
   font-size: 1.3rem !important;
   border-radius: 60px;
-  border: 1px solid #fe724c;
-  color: #fe724c;;
+  border: 1px solid #1976d2;
+  color: #1976d2;
   margin: 0.55rem 0;
   padding: 1rem;
-  width: 100%;
+  width: 60%;
   /* font-size: 1.6rem; */
 }
 
