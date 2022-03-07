@@ -1,43 +1,65 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar v-if="$router.currentRoute.value.path === '/'">
-        <q-btn
+      <q-toolbar style="height: 10px;">
+        <!--<q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
-        />
+        />-->
+        <div class="q-pa-md">
+    <q-btn-dropdown color="primary" label="Board">
+      <q-list>
+        <q-item clickable v-close-popup @click="onItemClick">
+          <q-item-section>
+            <q-item-label>Photos</q-item-label>
+          </q-item-section>
+        </q-item>
 
-        <q-toolbar-title>
-          Quasar App
+        <q-item clickable v-close-popup @click="onItemClick">
+          <q-item-section>
+            <q-item-label>Videos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup @click="onItemClick">
+          <q-item-section>
+            <q-item-label>Articles</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
+
+  </div>
+  <q-input color="white" placeholder-color="white" outlined v-model="text" dense="dense">
+        <template v-slot:append>
+          <q-icon name="search" color="white" />
+        </template>
+      </q-input>
+
+        <q-toolbar-title class="flex flex-center">
+          greyflow
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+
+        <ul>
+          <q-tabs class="q-mr-xl">
+            <q-btn round color="white"  flat icon="add" class=""/>
+            <q-btn round color="white"  flat icon="info" class=""/>
+            <q-btn round color="white"  flat icon="notifications" />
+          </q-tabs>
+        </ul>
+
+        </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-      v-if="$router.currentRoute.value.path === '/'"
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -98,24 +120,6 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {
-    EssentialLink
-  },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
 })
 </script>
-
-<style scoped>
-
-</style>
