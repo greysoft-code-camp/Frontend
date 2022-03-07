@@ -1,9 +1,9 @@
 <template>
    <q-card
+     @click="this.$router.replace('/list')"
       class="text-white col-4 q-mx-sm q-mt-sm"
       style="background: #014a88; height:100px; width:250px"
       clickable v-ripple
-      to=""
     >
       <q-card-section class="flex items-center justify-between">
         <div class="text-subtitle1">Lorem</div>

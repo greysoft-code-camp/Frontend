@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated v-if="$router.currentRoute.value.path === '/page'">
+    <q-header elevated v-if="$router.currentRoute.value.path === '/page' ||$router.currentRoute.value.path === '/list'">
       <q-toolbar style="height: 10px;">
         <!--<q-btn
           flat

@@ -95,7 +95,7 @@ export default {
             message: this.resp,
             color: 'primary',
           })
-           this.$router.replace('/')
+           this.$router.replace('/page')
         }).catch(() => {
             // console.log(this.$store);
 
