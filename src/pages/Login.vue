@@ -16,7 +16,7 @@
     <nav class="q-pb-xl">
         <ul>
           <q-tabs active-color="primary" class="flexx">
-            <q-route-tab class="text-dark info" to="/login" label="Login" />
+            <q-route-tab class="text-dark info" to="/" label="Login" />
             <q-route-tab class="text-dark info" to="/register" label="Sign Up" />
           </q-tabs>
         </ul>

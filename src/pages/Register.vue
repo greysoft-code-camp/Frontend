@@ -12,7 +12,7 @@
     <nav class="q-pb-xl">
         <ul>
           <q-tabs active-color="primary" class="flexx">
-            <q-route-tab class="text-dark info" to="/login" exact label="Log in" />
+            <q-route-tab class="text-dark info" to="/" exact label="Log in" />
             <q-route-tab class="text-dark info" to="/register" exact label="Sign Up" />
           </q-tabs>
         </ul>
@@ -112,7 +112,7 @@ export default {
               this.errors.push(resp.data.status)
               setTimeout(()=>{
                 this.errors.pop()
-                this.$router.push('/login')
+                this.$router.push('/')
                   
               }, 3000)
             }
