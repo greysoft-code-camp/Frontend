@@ -49,7 +49,27 @@
 
         <ul>
           <q-tabs class="q-mr-xl">
-            <q-btn round color="white"  flat icon="add" class=""/>
+                        <q-btn round color="white"  flat icon="add" class="" @click="inception = true" />
+
+
+    <q-dialog v-model="inception">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Add Boards</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+        <q-input outlined v-model="text" placeholder="Board Name" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Want to Proceed" @click="addNewBoard" />
+          <q-btn flat label="Close" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+
             <q-btn round color="white"  flat icon="info" class=""/>
             <q-btn round color="white"  flat icon="notifications" />
           </q-tabs>
@@ -116,10 +136,34 @@ const linksList = [
 ];
 
 import { defineComponent, ref } from 'vue'
+import axios from 'axios';
+
 
 export default defineComponent({
   name: 'MainLayout',
 
+  setup () {
+    return {
+      inception: ref(false),
+      secondDialog: ref(false),
+      apiUrl: 'https://greycodecamp.herokuapp.com/api/board'
+    }
+  },
+
+  methods:{
+    addNewBoard(){
+      axios.get(`${this.apiUrl}`).then(response =>{
+        console.log('response:', response);
+
+      })
+    }
+
+  }
+
+
 
 })
+
+
+
 </script>
