@@ -8,11 +8,24 @@
 
 <script>
 import Board from 'components/Board.vue'
+import axios from 'axios'
 
 export default {
   name: 'Boards',
   components:{
     Board
+  },
+  data(){
+    return{
+      apiUrl: '',
+      name: '',
+
+    }
+  },
+  methods:{
+    createBoards(){
+
+    }
   }
 }
 </script>
