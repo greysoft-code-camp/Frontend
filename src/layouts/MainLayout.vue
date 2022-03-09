@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+
+    <q-header elevated v-if="$router.currentRoute.value.path === '/page' ||$router.currentRoute.value.path === '/list'">
       <q-toolbar style="height: 10px;">
         <!--<q-btn
           flat
@@ -13,25 +14,15 @@
         <div class="q-pa-md">
     <q-btn-dropdown color="primary" label="Board">
       <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Photos</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Videos</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Articles</q-item-label>
+        <q-item clickable v-close-popup @click="onItemClick" v-for="board in boards" :key="board.id" >
+          <q-item-section >
+            <q-item-label @click="this.$router.replace('/list')" >{{ board.title }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-btn-dropdown>
+
+
 
 
   </div>
@@ -42,14 +33,14 @@
       </q-input>
 
         <q-toolbar-title class="flex flex-center">
-          greyflow
+          <p clickable v-ripple class="cursor-pointer " >greyflow</p>
         </q-toolbar-title>
 
         <div>
 
         <ul>
           <q-tabs class="q-mr-xl">
-                        <q-btn round color="white"  flat icon="add" class="" @click="inception = true" />
+       <q-btn round color="white"  flat icon="add" class="" @click="inception = true" />
 
 
     <q-dialog v-model="inception">
@@ -59,11 +50,13 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-        <q-input outlined v-model="text" placeholder="Board Name" />
+          <form @submit.prevent="add">
+            <q-input outlined v-model="boardss" type="text" placeholder="Board Name" />
+          </form>
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Want to Proceed" @click="addNewBoard" />
+          <q-btn flat label="Add Board" @click="add" />
           <q-btn flat label="Close" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -72,6 +65,7 @@
 
             <q-btn round color="white"  flat icon="info" class=""/>
             <q-btn round color="white"  flat icon="notifications" />
+            <q-btn round color="white"  flat icon="logout" />
           </q-tabs>
         </ul>
 
@@ -88,77 +82,70 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
 
 import { defineComponent, ref } from 'vue'
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 
 export default defineComponent({
   name: 'MainLayout',
+  data(){
+    return{
+    boardss: '',
+    }
+  },
+
+  computed:{
+    ...mapGetters(['boards'])
+  },
+  mounted(){
+    console.log(this.$store);
+  },
+  created(){
+    this.getBoards()
+  },
+
+  methods:{
+
+    getBoards: function() {
+      const token = localStorage.getItem('token')
+      this.$store.dispatch('getB', { token}).then(() =>{
+          //  this.$router.replace('/page')
+          console.log('first')
+        })
+    },
+
+    add(){
+      console.log(this.boardss);
+      const title =this.boardss
+      const user = localStorage.getItem('token')
+      this.$store.dispatch('addBoard', {user, title})
+      this.boards = ''
+      this.$q.notify({
+        message: 'Boards created successfully',
+        color: 'primary'
+      })
+    }
+  },
 
   setup () {
     return {
       inception: ref(false),
       secondDialog: ref(false),
-      apiUrl: 'https://greycodecamp.herokuapp.com/api/board'
+      // apiUrl: 'https://greycodecamp.herokuapp.com/api/board'
     }
   },
 
-  methods:{
-    addNewBoard(){
-      axios.get(`${this.apiUrl}`).then(response =>{
-        console.log('response:', response);
+  // methods:{
+  //   addNewBoard(){
+  //     axios.get(`${this.apiUrl}`).then(response =>{
+  //       console.log('response:', response);
 
-      })
-    }
+  //     })
+  //   }
 
-  }
+  // }
 
 
 
