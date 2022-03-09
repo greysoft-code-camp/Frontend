@@ -25,7 +25,7 @@ const getters = {
 }
 
 const mutations = {
-    
+
     auth_request(state) {
         state.status = 'loading'
     },
@@ -75,18 +75,18 @@ const mutations = {
         })
         // const boards = state.boardsData
         // console.log(boards)
-        
+
         // const newBoards = boards.push(payload.data)
         // return newBoards
-        console.log(resp.data.msg) 
-        
+        console.log(resp.data.msg)
+
 
     },
     logout(state) {
         state.status = ''
         state.token = ''
     },
-    
+
 }
 
 
@@ -144,9 +144,9 @@ const actions = {
         commit('addBoard', {data})
     },
 
-    
 
-    
+
+
 
     logout({ commit }) {
         return new Promise((resolve, reject) => {

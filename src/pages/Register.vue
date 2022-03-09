@@ -112,7 +112,7 @@ export default {
               this.errors.push(resp.data.status)
               setTimeout(()=>{
                 this.errors.pop()
-                this.$router.push('/')
+                this.$router.push('/login')
 
               }, 3000)
             }

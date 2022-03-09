@@ -99,7 +99,7 @@ export default {
         }).catch(() => {
             // console.log(this.$store);
 
-            const mesg = "Please Recheck Credentials"
+            const mesg = "Please your input"
              this.errors.push(mesg)
             setTimeout(()=>{
                 this.errors.pop()
