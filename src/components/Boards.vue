@@ -13,7 +13,7 @@
     </div>
     <!-- {{boards.length}} -->
 
-    <h1 v-if="!boards">You have no boards</h1>
+    <!-- <h1 v-if="!boards">You have no boards</h1> -->
     
   </div>
 </template>
