@@ -42,8 +42,8 @@ export default {
     ...mapGetters(['boards']),
   },
   mounted(){
-        console.log(this.$store);
-    },
+      console.log(this.$store);
+  },
 
   created(){
         this.getBoards()
@@ -64,10 +64,10 @@ export default {
       const user = localStorage.getItem('token')
       this.$store.dispatch('addBoard', { user, title})
       this.boardss = ''
-     this.$q.notify({
-            message: 'board created successfully',
-            color: 'primary',
-          })
+      this.$q.notify({
+        message: 'board created successfully',
+        color: 'primary',
+      })
     }
 
     // async getBoards(){

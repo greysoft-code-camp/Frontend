@@ -34,6 +34,8 @@ export default route(function({ store, ssrContext }) {
 
     Router.beforeEach((to, from, next) => {
         // console.log(store);
+        // console.log(`User logged in`);
+        // console.log(store.getters.isLoggedIn);
         if (to.matched.some(record => record.meta.requireAuth) && !store.getters.isLoggedIn) {
             next({ name: 'login', query: { next: to.fullPath } })
         } else if (to.matched.some(record => record.meta.requireGuest) && store.getters.isLoggedIn) {
