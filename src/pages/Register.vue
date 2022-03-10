@@ -24,15 +24,13 @@
       <p v-if="errors.length" class="text-white q-mb-xl resp bg-primary q-px-lg q-py-md">
         {{errors[0]}}
       </p>
-      <!-- {{form}} -->
-      <!-- {{errors}} -->
       <div class="input-wrap">
             <label class="text-primary" for="">Username</label> <br />
 
             <div class="input">
                 <i class="far q-mr-md fa-user text-primary"></i>
 
-                <input v-model="form.name" type="text" placeholder= "Enter your username eg. ademola" />
+                <input v-model="form.username" type="text" placeholder= "Enter your username eg. ademola" />
             </div>
         </div>
         <div class="input-wrap">
@@ -52,7 +50,7 @@
 
                <input type="password" v-model="form.password" placeholder="Enter your password" />
             </div>
-      
+
         </div>
 
         <!-- <div class="input-wrap">
@@ -63,27 +61,27 @@
 
                 <input type="password" v-model="form.password_confirmation" placeholder="Confirm your password" />
             </div>
-      
+
         </div> -->
-        
-        
-        
-    
-    
+
+
+
+
+
       <div class="button q-py-xl q-mt-lg text-center">
         <!-- <button class="btn">Register</button> -->
         <q-btn type="submit" class="btn q-py-sm q-px-xl">Register</q-btn>
       </div>
-        
+
     </form>
-    
+
 
       <p class="text-center q-pb-xl text-dark">
         Already have an account?
         <q-btn to="/login" flat class="text-primary"> Login</q-btn>
       </p>
     </div>
-  
+
 </template>
 
 <script>
@@ -93,131 +91,32 @@ import axios from 'axios'
 
 export default {
     data(){
-
-       const $q = useQuasar()
-       function showCustom () {
-          const dialog = $q.dialog({
-          title: 'checking user data.....',
-          dark: true,
-          message: '0%',
-          progress: {
-            spinner: QSpinnerGears,
-            color: 'amber'
-          },
-          persistent: true, // we want the user to not be able to close it
-          ok: false // we want the user to not be able to close it
-        })
-        // we simulate some progress here...
-        let percentage = 0
-        const interval = setInterval(() => {
-          percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
-          // we update the dialog
-          dialog.update({
-            message: `${percentage}%`
-          })
-          // if we are done...
-          if (percentage === 100) {
-            clearInterval(interval)
-            dialog.update({
-              title: 'Done!',
-              message: 'Validation error, check your login details',
-              progress: false,
-              ok: true
-            })
-          }
-        }, 500)
-      }
-
          return {
            resp: '',
              form :{
+                 username:'',
                  email: '',
                  password:'',
-                 name:'',
+
              },
              errors: [],
-             showCustom
          }
     },
      methods:{
-        async register(){
-            let resp = await api.post('/api/register', this.form).catch(err=> console.log(err.response.data))
-            // let resp = await axios.post('http://aa75e59c5b52245f78bca84a87c33713-1730258908.us-east-1.elb.amazonaws.com/api/login', this.form).catch(err=> console.log(err.response.data))
-            // console.log(resp);
+       async register(){
+            let resp = await axios.post('http://lumen-api.greysoft.com.ng/api/register', this.form).catch(err=> console.log(err))
+            //let resp = await axios.post('http://aa75e59c5b52245f78bca84a87c33713-1730258908.us-east-1.elb.amazonaws.com/api/login', this.form).catch(err=> console.log(err.response.data))
+            console.log(resp);
             if(resp){
-              console.log(resp.data.message);
-              this.errors.push(resp.data.message)
-              setTimeout(()=>{
+            console.log(resp);
+            this.errors.push(resp.data.status)
+             setTimeout(()=>{
                 this.errors.pop()
-                this.$router.push('/login')
-                  
-              }, 1000)
-              // setTimeout((resp)=>{
-              //   this.errors.push(resp.data.data.message).then(() =>{
-              //   this.errors = ''
-                      
-              //   })
-                   
-              // }, 4000)
-                this.form = ''
-            }else{
-              this.showCustom()
-              // this.errors.push(resp.data.email, resp.message)
-              // console.log(resp);
-              // return this.showCustomload.showCustom
-              // this.errors.push(resp.data, resp.email[0])
-              // alert('registration failed')
-              // this.form=''
-              // return this.showCustomload[0]
+               this.$router.push('/login')
+
+             }, 3000)
             }
-      //  register: function() {
-      //   let data = {
-      //     name: this.form.name,
-      //     email: this.form.email,
-      //     password: this.form.password,
-      //     password_confirmation: this.form.password_confirmation
-      //   }
-
-      //   this.$store.dispatch('register', data)
-      //     .then(() => this.$router.push('/'))
-      //     .catch(() => {
-      //       this.resp = "Recheck your credentials"
-      //     })
-      // },
-
-//        let fetc = fetch("http://greyfoods.nesitek.com/api/register", {
-     
-//     // Adding method type
-//     method: "POST",
-     
-//     // Adding body or contents to send
-//     body: JSON.stringify({
-//         email: this.form.email,
-//         name: this.form.name,
-//         password: this.form.password,
-//         password_confirmation: this.form.password_confirmation
-//     }),
-     
-//     // Adding headers to the request
-//     headers: {
-//         "Content-type": "application/json; charset=UTF-8"
-//     }
-// }).then(respp => respp.json()).then(respp => {
-// if(respp.message === 'User registered successfully.'){
-//               console.log(respp);
-//               this.errors.push(respp.message)
-//               setTimeout(()=>{
-//                 this.errors.pop()
-//                 this.$router.push('/login')
-                  
-//               }, 1000)
-              
-//                 this.form = ''
-//             }else{
-//               this.showCustom()
-//             }
-// })
-     }
+       }
 }
 }
 </script>
