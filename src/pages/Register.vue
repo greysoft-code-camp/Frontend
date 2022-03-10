@@ -30,7 +30,7 @@
             <div class="input">
                 <i class="far q-mr-md fa-user text-primary"></i>
 
-                <input v-model="form.fullName" type="text" placeholder= "Enter your username eg. ademola" />
+                <input v-model="form.username" type="text" placeholder= "Enter your username eg. ademola" />
             </div>
         </div>
         <div class="input-wrap">
@@ -50,7 +50,7 @@
 
                <input type="password" v-model="form.password" placeholder="Enter your password" />
             </div>
-      
+
         </div>
 
         <!-- <div class="input-wrap">
@@ -61,27 +61,27 @@
 
                 <input type="password" v-model="form.password_confirmation" placeholder="Confirm your password" />
             </div>
-      
+
         </div> -->
-        
-        
-        
-    
-    
+
+
+
+
+
       <div class="button q-py-xl q-mt-lg text-center">
         <!-- <button class="btn">Register</button> -->
         <q-btn type="submit" class="btn q-py-sm q-px-xl">Register</q-btn>
       </div>
-        
+
     </form>
-    
+
 
       <p class="text-center q-pb-xl text-dark">
         Already have an account?
         <q-btn to="/login" flat class="text-primary"> Login</q-btn>
       </p>
     </div>
-  
+
 </template>
 
 <script>
@@ -94,28 +94,28 @@ export default {
          return {
            resp: '',
              form :{
-                 fullName:'',
+                 username:'',
                  email: '',
                  password:'',
-                 
+
              },
              errors: [],
          }
     },
      methods:{
        async register(){
-            let resp = await axios.post('https://greycodecamp.herokuapp.com/api/auth/signup', this.form).catch(err=> console.log(err))
+            let resp = await axios.post('https://lumen-api.greysoft.com.ng/api/register', this.form).catch(err=> console.log(err))
             // let resp = await axios.post('http://aa75e59c5b52245f78bca84a87c33713-1730258908.us-east-1.elb.amazonaws.com/api/login', this.form).catch(err=> console.log(err.response.data))
-            // console.log(resp);
-            if(resp){
-              console.log(resp);
-              this.errors.push(resp.data.status)
-              setTimeout(()=>{
-                this.errors.pop()
-                this.$router.push('/')
-                  
-              }, 3000)
-            }
+            console.log(resp);
+            // if(resp){
+            //   console.log(resp);
+            //   this.errors.push(resp.data.status)
+            //   setTimeout(()=>{
+            //     this.errors.pop()
+            //     this.$router.push('/')
+
+            //   }, 3000)
+            // }
        }
 }
 }

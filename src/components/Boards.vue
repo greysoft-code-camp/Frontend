@@ -6,15 +6,15 @@
         <input v-model="boardss" type="text">
       </form>
     </div>
-    <div>
-      <div v-for="board in boards" :key="board.id" class=" q-mx-sm  cursor-pointer"  style="height: 120px">
-      <Board :board='board'/>
+    <div class="row">
+      <div v-for="board in boards" :key="board.user_id" class=" q-mx-sm  cursor-pointer row"  style="height: 120px">
+        <Board :board='board'/>
       </div>
     </div>
     <!-- {{boards.length}} -->
 
     <!-- <h1 v-if="!boards">You have no boards</h1> -->
-    
+
   </div>
 </template>
 
@@ -33,7 +33,6 @@ export default {
       apiUrl: '',
       name: '',
       boardss:''
-
     }
   },
 
@@ -42,6 +41,7 @@ export default {
   },
   mounted(){
         console.log(this.$store);
+        console.log(this.boards);
     },
 
   created(){
@@ -59,9 +59,10 @@ export default {
 
     add(){
       console.log(this.boardss)
-      const title = this.boardss
-      const user = localStorage.getItem('token')
-      this.$store.dispatch('addBoard', { user, title})
+      const name = this.boardss
+      // const user = localStorage.getItem('token');
+      const user = "ecc39488-2142-473d-ad99-1dfd22bdefbe";
+      this.$store.dispatch('addBoard', { user, name})
       this.boardss = ''
      this.$q.notify({
             message: 'board created successfully',

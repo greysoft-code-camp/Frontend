@@ -2,11 +2,15 @@ import axios from "axios"
 import { api } from 'boot/axios'
 import { useQuasar } from 'quasar'
 
+const global_token = "zgPjRcznwOvOedpKxidaqYZRUD0BjmAUUDblOyQco18XpSko7H";
+// const global_token = "zgPjRcznwOvOedpKxidaqYZRUD0BjmAUUDblOyQco18XpSko7H";
+
 const state = {
     status: '',
     token: localStorage.getItem('token') || '',
     user: null,
-    boardsData : null
+    boardsData : null,
+    list: []
 }
 
 const getters = {
@@ -21,11 +25,14 @@ const getters = {
 
     boards(state){
         return state.boardsData
+    },
+    list(state){
+      return state.list
     }
 }
 
 const mutations = {
-    
+
     auth_request(state) {
         state.status = 'loading'
     },
@@ -58,9 +65,9 @@ const mutations = {
         const token = localStorage.getItem('token')
         console.log(token)
         let resp = axios.delete(`https://greycodecamp.herokuapp.com/api/board/${ids}`, {
-            headers:{
-                'Authorization': 'Bearer ' + token
-            }
+            // headers:{
+            //     'Authorization': 'Bearer ' + token
+            // }
         })
 
         return resp
@@ -68,25 +75,35 @@ const mutations = {
     },
     async addBoard(state, payload){
         console.log(payload.data.user)
-        let resp = await axios.post('https://greycodecamp.herokuapp.com/api/board', payload.data, {
-            headers:{
-                'Authorization': 'Bearer ' + payload.data.user
-            }
-        })
-        // const boards = state.boardsData
-        // console.log(boards)
-        
-        // const newBoards = boards.push(payload.data)
-        // return newBoards
-        console.log(resp.data.msg) 
-        
+        console.log(payload.data);
+        // const token = localStorage.getItem('token')
+        let resp = await axios.post(`https://lumen-api.greysoft.com.ng/api/boards/create?api_token=${global_token}`, payload.data);
 
+        let boards = [...state.boardsData];
+        boards.push(resp.data.board);
+
+        // state.boardsData = boards;
+    },
+    getLists(state, payload){
+      state.list=payload.list;
+    },
+    addLists(state, payload){
+      state.list=payload.list;
+    },
+    async addListItem(state, payload){
+      console.log('payload')
+      console.log(payload.data)
+      payload=payload.data;
+      // let resp = await axios.post(`https://greycodecamp.herokuapp.com/api/todo/${payload.boardId}`, {body: payload.listItem})
+      let resp = await axios.post(`https://lumen-api.greysoft.com.ng/api/tasks/create/1?api_token=7FZKMN2e4OxywtSqvbT3AjyaBUocgSw345jYDIsttoTvrEChxR`, {body: payload.listItem})
+
+      console.log(resp);
     },
     logout(state) {
         state.status = ''
         state.token = ''
     },
-    
+
 }
 
 
@@ -94,7 +111,7 @@ const actions = {
     login({ commit }, user) {
         return new Promise((resolve, reject) => {
             commit('auth_request')
-            axios.post('https://greycodecamp.herokuapp.com/api/auth/login', user)
+            axios.post('https://lumen-api.greysoft.com.ng/api/login', user)
                 .then(resp => {
                     console.log(resp.data.data.token, resp.data.data.user);
                     const token = resp.data.data.token
@@ -104,7 +121,7 @@ const actions = {
                     localStorage.setItem('token', token)
                     localStorage.setItem('userdet', JSON.stringify(user))
                     console.log(localStorage.getItem('token'));
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+                    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
                     commit('auth_success', { token: token, user: user })
                     resolve(resp)
                 })
@@ -121,14 +138,15 @@ const actions = {
         console.log(token.token)
         console.log(token)
         const tokenB = token.token
-        let resp = await axios.get('https://greycodecamp.herokuapp.com/api/board', {
-            headers:{
-                'Authorization': 'Bearer ' + tokenB
-            }
+        let resp = await axios.get(`https://lumen-api.greysoft.com.ng/api/boards?api_token=${global_token}`, {
+            // headers:{
+            //     'Authorization': 'Bearer ' + tokenB
+            // }
         })
         // .catch((err) => console.log('error'))
-        console.log(resp.data.data)
-        const respData = resp.data.data
+        console.log(resp.data)
+        const respData = resp.data.boards
+        console.log(respData);
         commit('Boards', { respData})
     },
 
@@ -144,9 +162,60 @@ const actions = {
         commit('addBoard', {data})
     },
 
-    
 
-    
+
+// List Part
+        async addL({ commit }, data) {
+          /*
+          data = {
+            token, boardId, list
+          }
+          */
+          commit('addList', { data })
+        },
+
+        async getLists({commit}, data){
+          // console.log(data)
+          // const tokenB = data.token;
+          // console.log(data)
+          let { token, board } = data;
+          // let resp = await axios.get(`http://192.168.130.83:8000/api/lists/${board}?api_token=${global_token}`);
+          let resp = await axios.get(`https://lumen-api.greysoft.com.ng/api/lists/${board}?api_token=${global_token}`);
+          const respData = resp.data.lists
+
+          // console.log("respDatasss");
+          console.log(respData);
+
+          // commit('Boards', { respData})
+
+          // console.log(state.list);
+
+          // console.log(respData)
+          commit("getLists", {list: respData})
+        },
+
+        async addList({commit}, data){
+          const {token, boardId, listName} = data;
+
+          console.log(listName)
+          console.log(boardId)
+          // console.log(listName)
+          let response = await axios.post(`https://lumen-api.greysoft.com.ng/api/lists/create/${boardId}?api_token=${global_token}`, {lists: [listName]})
+
+          console.log(response);
+          let list = response.list;
+
+          commit("addLists", {list})
+        },
+        async addListItem({commit}, data){
+          // const {token, boardId, list} = data;
+
+          commit("addListItem", {data})
+        },
+
+
+
+
 
     logout({ commit }) {
         return new Promise((resolve, reject) => {
