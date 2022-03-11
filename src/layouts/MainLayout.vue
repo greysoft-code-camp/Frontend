@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <q-header elevated v-if="$router.currentRoute.value.path === '/page' ||$router.currentRoute.value.path === '/list'">
+    <q-header elevated v-if="$router.currentRoute.value.path === '/page' || $router.currentRoute.value.path === '/list'">
       <q-toolbar style="height: 10px;">
         <!--<q-btn
           flat
@@ -43,24 +43,24 @@
        <q-btn round color="white"  flat icon="add" class="" @click="inception = true" />
 
 
-    <q-dialog v-model="inception">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Add Boards</div>
-        </q-card-section>
+          <q-dialog v-model="inception">
+            <q-card>
+              <q-card-section>
+                <div class="text-h6">Add Boards</div>
+              </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <form @submit.prevent="add">
-            <q-input outlined v-model="boardss" type="text" placeholder="Board Name" />
-          </form>
-        </q-card-section>
+              <q-card-section class="q-pt-none">
+                <form @submit.prevent="add">
+                  <q-input outlined v-model="boardss" type="text" placeholder="Board Name" />
+                </form>
+              </q-card-section>
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Add Board" @click="add" />
-          <q-btn flat label="Close" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+              <q-card-actions align="right" class="text-primary">
+                <q-btn flat label="Add Board" @click="add" />
+                <q-btn flat label="Close" v-close-popup />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
 
 
             <q-btn round color="white"  flat icon="info" class=""/>
@@ -136,36 +136,6 @@ export default defineComponent({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   setup () {
     return {
       inception: ref(false),
@@ -191,3 +161,11 @@ export default defineComponent({
 
 
 </script>
+
+
+<style scoped>
+
+
+
+
+</style>
