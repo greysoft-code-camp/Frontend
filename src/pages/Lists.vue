@@ -9,7 +9,7 @@
       </div>
   </div>
 
-
+<!-- {{list}} -->
  <div class="row q-px-lg q-mt-xs q-mx-auto">
     <!-- <q-card class="q-ml-xl q-mt-lg q-pa-md" style="width:20%" v-for="n in 3" :key="n">
 
@@ -72,11 +72,11 @@
           </div>
 
           <div class="col-auto">
-            <q-btn color="white" round flat icon="more_vert">
+            <q-btn color="white" round flat icon="more_vert" >
               <q-menu cover auto-close>
                 <q-list>
                   <q-item clickable>
-                    <q-item-section>Delete List</q-item-section>
+                    <q-item-section @click="() => deletee(item)">Delete List</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -85,9 +85,9 @@
         </div>
 
       <q-list class="q-mt-md q-mb-xl">
-        <q-item clickable v-ripple v-for="listItem in listItems" :key="listItem._id" v-show="listItem.list === item" class="q-pa-xs">
+        <q-item clickable v-ripple v-for="listItemName in listItems" :key="listItemName._id" v-show="listItemName.list === item" class="q-pa-xs">
           <q-item-section class="q-my-none q-px-md" style="background:rgb(128, 128, 128,0.2)">
-            <q-item-label style="text-transform:capitalize" > {{listItem.body}} </q-item-label>
+            <q-item-label style="text-transform:capitalize" > {{listItemName.body}} </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -148,6 +148,7 @@
 </template>
 
 <script>
+import Draggable from 'vue3-draggable'
 import { ref } from 'vue'
 import { mapGetters } from 'vuex';
 const token = localStorage.getItem('token')
@@ -155,6 +156,9 @@ let uri = window.location.href.split('/');
 let id = uri[uri.length-1];
 
 export default {
+  components:{
+    Draggable
+  },
   data(){
     return{
       alert: ref(false),
@@ -183,8 +187,18 @@ export default {
     },
     addListItem(){
       let list = this.activeList;
-      this.$store.dispatch('addListItem', {token, list, listItem: this.listItem , boardId: id})
-    }
+      this.$store.dispatch('addListItem', {token, list, listItem: this.listItem , boardId: id});
+      this.$store.dispatch('getListItems', {token, board: id});
+    },
+
+    deletee(listName){
+
+    //  const id = this.id
+    //  console.log(id);
+      // this.$store.dispatch('delete')
+      // console.log(this.list._id)
+      this.$store.dispatch('listDelete', {id, listName})
+  }
   },
   mounted(){
 
