@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-pl-xl q-pt-lg">
+  <div class="row  q-pt-lg hi ">
     <!-- {{boards.length}} -->
     <!-- <div class="inpp">
       <form @submit.prevent="add">
@@ -7,8 +7,8 @@
       </form>
     </div> -->
 
-    <div class="row">
-      <div v-for="board in boards" :key="board.id" class=" q-mx-sm  cursor-pointer"  style="height: 120px">
+    <div class="row hello ">
+      <div v-for="board in boards" :key="board.id" class=" q-mx-sm cursor-pointer"  style="height: 120px">
       <Board :board='board'/>
       </div>
     </div>
@@ -100,4 +100,19 @@ export default {
   background: rgba(86,61,124,.15);
   border: 1px solid rgba(86,61,124,.2);
   }
+
+  @media screen and (max-width: 564px) {
+    .hello{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0);
+    padding: 10px;
+
+  }
+
+  .hi{
+    position: relative;
+  }
+}
 </style>

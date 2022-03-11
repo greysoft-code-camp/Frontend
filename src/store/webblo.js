@@ -7,7 +7,8 @@ const state = {
     token: localStorage.getItem('token') || '',
     user: null,
     boardsData : null,
-    list:[]
+    list:[],
+    listItems: []
 }
 
 const getters = {
@@ -25,6 +26,9 @@ const getters = {
     },
     list(state){
       return state.list
+    },
+    listItems(state){
+      return state.listItems
     }
 }
 
@@ -47,9 +51,6 @@ const mutations = {
         // console.log(payload)
         state.boardsData = payload.respData
     },
-    // List(){
-    //     state
-    // },
     Boarddelete( state, payload){
         console.log(payload.id.id)
         const boards = state.boardsData
@@ -107,8 +108,24 @@ const mutations = {
       // return newBoards
       console.log(resp.data.msg);
     },
+    async addListItem(state, payload){
+      console.log('payload')
+      console.log(payload.data)
+      payload=payload.data;
+      let resp = await axios.post(`https://greycodecamp.herokuapp.com/api/todo/${payload.boardId}`, {body: payload.listItem, list: payload.list}, {
+          headers:{
+            'Authorization': 'Bearer ' + payload.token
+          }
+      })
+      // let res = resp.data.data;
+      // let newItems= [...state.listItems].push(res)//=payload.listItems;
+      // state.listItems = newItems;
+    },
     getLists(state, payload){
       state.list=payload.list;
+    },
+    getListItems(state, payload){
+      state.listItems=payload.listItems;
     },
     logout(state) {
         state.status = ''
@@ -176,11 +193,6 @@ const actions = {
 
 
     async addL({ commit }, data) {
-      /*
-      data = {
-        token, boardId, list
-      }
-      */
       commit('addList', { data })
     },
 
@@ -207,22 +219,39 @@ const actions = {
     async addList({commit}, data){
       const {token, boardId, listName} = data;
 
-      let response = await axios.post(`https://greycodecamp.herokuapp.com/api/board/${boardId}/list`, {
-        data: {
-          listName: listName
-        },
+      let response = await axios.post(`https://greycodecamp.herokuapp.com/api/board/${boardId}/list`, {listName}, {
         headers:{
           'Authorization': 'Bearer ' + token
         }
       })
 
+      commit("getLists", {list: response.data.data})
+    },
+
+    async addListItem({commit}, data){
+      // const {token, boardId, list} = data;
+
+      commit("addListItem", {data})
+    },
+
+    async getListItems({commit}, data){
+
+      const tokenB = data.token;
+      // console.log(data)
+      let resp = await axios.get(`https://greycodecamp.herokuapp.com/api/todo`, {
+        headers:{
+          'Authorization': 'Bearer ' + tokenB
+        }
+      })
+      // const respData = resp.data.data
+
       // console.log("respDatasss");
-      console.log(response);
+      console.log(resp.data.data);
 
       // commit('Boards', { respData})
 
       // console.log(respData)
-      commit("getLists", {list: respData.list})
+      commit("getListItems", {listItems: resp.data.data})
     },
 
 
