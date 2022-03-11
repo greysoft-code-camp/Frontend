@@ -56,8 +56,8 @@
               </q-card-section>
 
               <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Add Board" @click="add" />
-                <q-btn flat label="Close" v-close-popup />
+                <q-btn flat label="Add Board" @click="() => {add(); inception = false}" />
+                <!-- <q-btn flat label="Close" v-close-popup /> -->
               </q-card-actions>
             </q-card>
           </q-dialog>

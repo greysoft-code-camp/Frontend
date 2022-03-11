@@ -52,22 +52,23 @@ export default {
 
     getBoards: function() {
       const token = localStorage.getItem('token')
-      this.$store.dispatch('getB', { token}).then(() =>{
-          //  this.$router.replace('/page')
-          console.log('first')
-        })
+      this.$store.dispatch('getB', { token})
     },
 
     add(){
       console.log(this.boardss)
       const title = this.boardss
       const user = localStorage.getItem('token')
-      this.$store.dispatch('addBoard', { user, title})
+      this.$store.dispatch('addBoard', { user, title}).then(() => {
+        const token = localStorage.getItem('token')
+        this.$store.dispatch('getB', { token})
+      })
       this.boardss = ''
       this.$q.notify({
         message: 'board created successfully',
         color: 'primary',
       })
+      // this.getBoards()
     }
 
     // async getBoards(){
