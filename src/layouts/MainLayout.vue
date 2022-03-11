@@ -65,7 +65,7 @@
 
             <q-btn round color="white"  flat icon="info" class=""/>
             <q-btn round color="white"  flat icon="notifications" />
-            <q-btn round color="white"  flat icon="logout" />
+            <q-btn round color="white"  flat icon="logout" @click="logout" />
           </q-tabs>
         </ul>
 
@@ -126,8 +126,45 @@ export default defineComponent({
         message: 'Boards created successfully',
         color: 'primary'
       })
+    },
+
+    logout(){
+      this.$store.dispatch('logout');
+      this.$router.replace('/');
     }
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   setup () {
     return {

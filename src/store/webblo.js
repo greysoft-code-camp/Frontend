@@ -6,7 +6,8 @@ const state = {
     status: '',
     token: localStorage.getItem('token') || '',
     user: null,
-    boardsData : null
+    boardsData : null,
+    list:[]
 }
 
 const getters = {
@@ -20,9 +21,14 @@ const getters = {
     authStatus: state => state.status,
 
     boards(state){
-        return state.boardsData
+      return state.boardsData
+    },
+    list(state){
+      return state.list
     }
 }
+
+// console.log(typeof getters.isLoggedIn(state))
 
 const mutations = {
 
@@ -38,10 +44,12 @@ const mutations = {
         // console.log(puy)
     },
     Boards( state, payload){
-        console.log(payload)
+        // console.log(payload)
         state.boardsData = payload.respData
     },
-
+    // List(){
+    //     state
+    // },
     Boarddelete( state, payload){
         console.log(payload.id.id)
         const boards = state.boardsData
@@ -82,6 +90,26 @@ const mutations = {
 
 
     },
+    async addList(state, payload){
+      console.log(payload.data.user)
+      let resp = await axios.post(`https://greycodecamp.herokuapp.com/api/board/${payload.boardId}/list`, {
+          data: {
+            listName: payload.list
+          },
+          headers:{
+            'Authorization': 'Bearer ' + payload.data.user
+          }
+      })
+      // const boards = state.boardsData
+      // console.log(boards)
+
+      // const newBoards = boards.push(payload.data)
+      // return newBoards
+      console.log(resp.data.msg);
+    },
+    getLists(state, payload){
+      state.list=payload.list;
+    },
     logout(state) {
         state.status = ''
         state.token = ''
@@ -118,8 +146,8 @@ const actions = {
     },
 
     async getB({ commit }, token) {
-        console.log(token.token)
-        console.log(token)
+        // console.log(token.token)
+        // console.log(token)
         const tokenB = token.token
         let resp = await axios.get('https://greycodecamp.herokuapp.com/api/board', {
             headers:{
@@ -127,7 +155,7 @@ const actions = {
             }
         })
         // .catch((err) => console.log('error'))
-        console.log(resp.data.data)
+        // console.log(resp.data.data)
         const respData = resp.data.data
         commit('Boards', { respData})
     },
@@ -142,6 +170,59 @@ const actions = {
     addBoard({commit}, data){
         console.log(data)
         commit('addBoard', {data})
+    },
+
+
+
+
+    async addL({ commit }, data) {
+      /*
+      data = {
+        token, boardId, list
+      }
+      */
+      commit('addList', { data })
+    },
+
+    async getLists({commit}, data){
+
+      const tokenB = data.token;
+      // console.log(data)
+      let resp = await axios.get(`https://greycodecamp.herokuapp.com/api/board/${data.board}`, {
+        headers:{
+          'Authorization': 'Bearer ' + tokenB
+        }
+      })
+      const respData = resp.data.data
+
+      // console.log("respDatasss");
+      console.log(respData.list);
+
+      // commit('Boards', { respData})
+
+      console.log(respData)
+      commit("getLists", {list: respData.list})
+    },
+
+    async addList({commit}, data){
+      const {token, boardId, listName} = data;
+
+      let response = await axios.post(`https://greycodecamp.herokuapp.com/api/board/${boardId}/list`, {
+        data: {
+          listName: listName
+        },
+        headers:{
+          'Authorization': 'Bearer ' + token
+        }
+      })
+
+      // console.log("respDatasss");
+      console.log(response);
+
+      // commit('Boards', { respData})
+
+      // console.log(respData)
+      commit("getLists", {list: respData.list})
     },
 
 

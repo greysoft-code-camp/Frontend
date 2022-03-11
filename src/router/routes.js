@@ -5,10 +5,12 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
 
+      // { path: '/page', component: () => localStorage.getItem('token') ? import('pages/Index.vue'): import('pages/Home.vue') },
+      // { path: '/page', component: () => import(`pages/Index.vue`) },
       { path: '/page', component: () => import('pages/Index.vue') },
       { path: '/login', component: () => import('pages/Login.vue') },
       { path: '/register', component: () => import('pages/Register.vue') },
-      { path: '/list', component: () => import('pages/Lists.vue') },
+      { path: '/list/:boardId', component: () => import('pages/Lists.vue') },
       { path: '/', component: () => import('pages/Home.vue') }
 
     ]
