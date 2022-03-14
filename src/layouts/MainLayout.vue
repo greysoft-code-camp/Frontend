@@ -40,7 +40,7 @@
 
         <ul>
           <q-tabs class="q-mr-xl">
-       <q-btn round color="white"  flat icon="add" class="" @click="inception = true" />
+       <q-btn round color="white" class="hey"  flat icon="add"  @click="inception = true" />
 
 
           <q-dialog v-model="inception">
@@ -56,15 +56,15 @@
               </q-card-section>
 
               <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Add Board" @click="() => {add(); inception = false}" />
+                <q-btn flat label="Add Board"  @click="() => {add(); inception = false}" />
                 <!-- <q-btn flat label="Close" v-close-popup /> -->
               </q-card-actions>
             </q-card>
           </q-dialog>
 
 
-            <q-btn round color="white"  flat icon="info" class=""/>
-            <q-btn round color="white"  flat icon="notifications" />
+            <q-btn round color="white"  flat icon="info" class=" hey"/>
+            <q-btn round color="white"  flat icon="notifications" class="hey" />
             <q-btn round color="white"  flat icon="logout" @click="logout" />
           </q-tabs>
         </ul>
@@ -166,6 +166,23 @@ export default defineComponent({
 <style scoped>
 
 
+@media screen and (max-width: 700px) {
+    /* .q-card{
+      width: 80% !important;
 
+    } */
+
+    .q-input{
+      display:none
+    }
+    .hey{
+      display:none
+    }
+    .q-header{
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+}
 
 </style>

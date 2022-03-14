@@ -100,7 +100,6 @@ const mutations = {
       // return newBoards
       console.log(resp.data.msg);
     },
-
     async listDelete( state, payload){
       // console.log(payload)
 
@@ -140,7 +139,7 @@ const mutations = {
 
       return resp
 
-  },
+    },
     async addListItem(state, payload){
       console.log('payload')
       console.log(payload.data)
@@ -164,6 +163,11 @@ const mutations = {
         state.status = ''
         state.token = ''
     },
+    emptyLists(state){
+      // console.log("Empty Lists mutations")
+      state.list = [];
+      state.listItems = [];
+    }
 
 }
 
@@ -241,12 +245,16 @@ const actions = {
           'Authorization': 'Bearer ' + tokenB
         }
       })
+      // const tokenB = token.token
+        // let resp = await axios.get('https://greycodecamp.herokuapp.com/api/board', {
+        //     headers:{
+        //         'Authorization': 'Bearer ' + tokenB
+        //     }
+        // })
       const respData = resp.data.data
 
-      // console.log("respDatasss");
-      console.log(respData.list);
-
-      // commit('Boards', { respData})
+      console.log(respData);
+      // console.log(respData.list);
 
       console.log(respData)
       commit("getLists", {list: respData.list})
@@ -297,6 +305,10 @@ const actions = {
       commit('listDelete', { id, listName })
     },
 
+    emptyLists({commit}){
+      // console.log("Empty Lists actions")
+      commit('emptyLists')
+    },
 
 
 
