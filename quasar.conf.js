@@ -218,4 +218,7 @@ module.exports = configure(function (ctx) {
       },
     }
   }
+  // quasar.conf.js
+
+
 });

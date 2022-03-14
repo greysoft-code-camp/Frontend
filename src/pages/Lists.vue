@@ -1,5 +1,5 @@
 <template>
-  <div :onload="getBoards">
+  <div :onload="getBoards" class="q-mt-lg">
     <div class="row justify-between items-center q-px-lg">
       <q-btn outline color="primary" to="/page">Back</q-btn>
       <!-- Add List card -->
@@ -170,7 +170,7 @@ export default {
       listName: "",
       activeList: "",
       listItem: "",
-      id: window.location.href.split('=')[1]
+      id: window.location.href.split('/')[window.location.href.split('/').length -1]
     }
   },
   computed: {

@@ -1,7 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <q-header elevated v-if="$router.currentRoute.value.path === '/page' || $router.currentRoute.value.path === '/list'">
+    <q-header elevated v-if="$router.currentRoute.value.path !== '/'">
+    <!-- <q-header elevated v-if="$router.currentRoute.value.path === '/page' || $router.currentRoute.value.path === '/list'"> -->
       <q-toolbar style="height: 10px;">
         <!--<q-btn
           flat
@@ -16,7 +17,7 @@
       <q-list>
         <q-item clickable v-close-popup @click="onItemClick" v-for="board in boards" :key="board.id" >
           <q-item-section >
-            <q-item-label @click="this.$router.replace('/list')" >{{ board.title }}</q-item-label>
+            <q-item-label @click="this.$router.replace(`/list/${board._id}`)" >{{ board.title }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -26,13 +27,13 @@
 
 
   </div>
-  <q-input color="white" placeholder-color="white" outlined v-model="text" dense="dense">
+  <q-input color="white" placeholder-color="white" outlined v-model="text" dense="dense" class="search">
         <template v-slot:append>
-          <q-icon name="search" color="white" />
+          <q-icon name="search" color="white" class="search"/>
         </template>
       </q-input>
 
-        <q-toolbar-title class="flex flex-center">
+        <q-toolbar-title class="flex flex-center title_header">
           <p clickable v-ripple class="cursor-pointer " >greyflow</p>
         </q-toolbar-title>
 
@@ -40,7 +41,7 @@
 
         <ul>
           <q-tabs class="q-mr-xl">
-       <q-btn round color="white" class="hey"  flat icon="add"  @click="inception = true" />
+       <q-btn round color="white"  flat icon="add" class="" @click="inception = true"/>
 
 
           <q-dialog v-model="inception">
@@ -56,15 +57,15 @@
               </q-card-section>
 
               <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Add Board"  @click="() => {add(); inception = false}" />
+                <q-btn flat label="Add Board" @click="() => {add(); inception = false}" />
                 <!-- <q-btn flat label="Close" v-close-popup /> -->
               </q-card-actions>
             </q-card>
           </q-dialog>
 
 
-            <q-btn round color="white"  flat icon="info" class=" hey"/>
-            <q-btn round color="white"  flat icon="notifications" class="hey" />
+            <q-btn round color="white"  flat icon="info" class="info"/>
+            <q-btn round color="white"  flat icon="notifications" class="info"/>
             <q-btn round color="white"  flat icon="logout" @click="logout" />
           </q-tabs>
         </ul>
@@ -101,6 +102,7 @@ export default defineComponent({
   },
   mounted(){
     console.log(this.$store);
+    // console.log($router.currentRoute.value.path);
   },
   created(){
     this.getBoards()
@@ -164,25 +166,24 @@ export default defineComponent({
 
 
 <style scoped>
-
-
-@media screen and (max-width: 700px) {
-    /* .q-card{
-      width: 80% !important;
-
-    } */
-
-    .q-input{
-      display:none
-    }
-    .hey{
-      display:none
-    }
-    .q-header{
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-    }
+@media screen and (max-width: 769px) {
+.search{
+  display:none;
 }
+.info{
+  display:none;
+}
+.title_header{
+  width:13rem;
+  font-size:.9rem;
+}
+}
+@media screen and (max-width: 359px){
+ .title_header{
+   display:none;
+ }
+}
+
+
 
 </style>
