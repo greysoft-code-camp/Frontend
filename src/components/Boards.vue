@@ -42,7 +42,8 @@ export default {
     ...mapGetters(['boards']),
   },
   mounted(){
-      console.log(this.$store);
+      // console.log(this.$store);
+
   },
 
   created(){
@@ -86,6 +87,9 @@ export default {
     //           this.boards = boardData
     //         }
     //    }
+  },
+  mounted(){
+    this.$store.dispatch('emptyLists')
   }
   // methods:{
   //   createBoards(){

@@ -5,7 +5,8 @@
       clickable v-ripple
     >
       <q-card-section  class="flex items-center justify-between">
-        <div @click="this.$router.replace(`/list/${board._id}`)" class="text-subtitle1">{{board.title}}</div>
+        <div @click="this.$router.replace(`/list?boardId=${board._id}`)" class="text-subtitle1">{{board.title}}</div>
+        <!-- <router-link :to = "`/list/${board._id}`">{{board.title}}</router-link> -->
         <div class="col-auto">
             <q-btn color="grey-7" round flat icon="more_vert">
               <q-menu cover auto-close>
